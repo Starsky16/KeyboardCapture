@@ -1,118 +1,31 @@
-# 插件自述文件
+# KeyboardCapture（键盘捕捉）
 
-本文件会在插件市场上显示。在安装插件后，本自述文件也会在【应用设置】->【插件】页面中显示。因此，本文件也将会是用户了解你的插件功能的重要途径，建议好好写 README。
+一个用于 [ClassIsland](https://classisland.tech) 的**全局键盘按键捕捉**插件。
 
-**注意事项：**
+本插件通过跨平台全局键盘钩子（[SharpHook](https://github.com/TolikPylypchuk/SharpHook)）捕捉系统级按键事件，并将捕捉能力作为服务暴露给其他有需求的 ClassIsland 插件，使其可以订阅按键事件、注册组合热键等。
 
-- 嵌入图片时请使用网络图床。
-- 支持在这里直接调用 ClassIsland 内部的 Uri，例如[classisland://app/test/](classisland://app/test/)。
-- 本文件一般会在 ClassIsland 内置的 Markdown 渲染器（基于 [MdXaml](https://github.com/whistyun/MdXaml)）中渲染，仅支持部分 Markdown 语法。
+## 主要功能
 
-***
+- 全局系统级捕捉键盘按键（KeyDown / KeyUp）。
+- 标准化按键标识（键码 + 显示名）与修饰键（Ctrl / Alt / Shift / Win）状态。
+- 通过依赖注入向其他插件暴露 `IKeyboardCaptureService`，实现跨插件联动。
 
-**支持的 Markdown 语法：**
+## 面向插件开发者
 
-> 本示例魔改自 [Leanote 博客](http://leanote.leanote.com/post/markdown-source-code)。
+如果您的插件需要读取全局键盘按键：
 
-# Welcome to ClassIsland! 欢迎来到ClassIsland!
- 
-## 1. 排版
- 
-**粗体** *斜体* 
- 
-~~这是一段错误的文本。~~
- 
-引用:
- 
-> 123123123123
- 
-有充列表:
- 1. 支持Vim
- 2. 支持Emacs
- 
-无序列表:
- 
- - 项目1
- - 项目2
- 
- 
-## 2. 图片与链接
- 
-网络图片:
-![Banner](https://github.com/user-attachments/assets/a815dd7d-8343-4da5-aee4-3f754aa297e4)
+1. 在您的插件清单 `manifest.yml` 中声明依赖本插件：
 
-WPF 资源图片：
+   ```yaml
+   dependencies:
+     - id: Starsky16.KeyboardCapture
+   ```
 
-![1690356161339](pack://application:,,,/ClassIsland;component/Assets/AppLogo.png)
+2. 通过 `IAppHost.TryGetService<IKeyboardCaptureService>()`（或构造函数注入）获取服务，订阅 `KeyDown` / `KeyUp` 事件。
 
-链接:
- 
-[ClassIsland 官网](http://classisland.tech)
- 
-## 3. 标题
- 
-以下是各级标题, 最多支持5级标题
- 
-```
-# h1
-## h2
-### h3
-#### h4
-##### h4
-###### h5
-```
- 
-## 4. 代码
- 
-示例:
- 
-    function get(key) {
-        return m[key];
-    }
-    
-代码高亮示例:
- 
-``` javascript
-/**
-* nth element in the fibonacci series.
-* @param n >= 0
-* @return the nth element, >= 0.
-*/
-function fib(n) {
-  var a = 1, b = 1;
-  var tmp;
-  while (--n >= 0) {
-    tmp = a;
-    a += b;
-    b = tmp;
-  }
-  return a;
-}
- 
-document.write(fib(10));
-```
- 
-```python
-class Employee:
-   empCount = 0
- 
-   def __init__(self, name, salary):
-        self.name = name
-        self.salary = salary
-        Employee.empCount += 1
-```
- 
-# 5. Markdown 扩展
- 
-Markdown 扩展支持:
- 
-* 表格
- 
-## 5.1 表格
- 
-Item     | Value
--------- | ---
-Computer | \$1600
-Phone    | \$12
-Pipe     | \$1
- 
+> 注意：按键事件在后台线程触发，若需更新 UI，请使用 Avalonia 的 `Dispatcher.UIThread` 封送到 UI 线程。
+
+## 开发状态
+
+- 开发中，功能代码位于 `dev` 分支；发布版本见 `main` 分支。
+- 接口定义与实现细节将在后续版本中逐步补充。

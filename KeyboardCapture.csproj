@@ -4,6 +4,10 @@
         <TargetFramework>net8.0-windows</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <!-- 确保编译输出包含所有依赖 dll（发布 .cipx / 部署到本地测试时需要） -->
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <AssemblyName>KeyboardCapture</AssemblyName>
+        <RootNamespace>KeyboardCapture</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup>
