@@ -2,6 +2,8 @@
 using System.IO;
 using ClassIsland.Core.Abstractions;
 using ClassIsland.Core.Attributes;
+using KeyboardCapture.Abstractions;
+using KeyboardCapture.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -15,7 +17,11 @@ public class Plugin : PluginBase
 {
     public override void Initialize(HostBuilderContext context, IServiceCollection services)
     {
-        // 全局键盘捕捉服务的注册将在后续开发阶段中添加。
+        // 注册全局键盘捕捉服务：单例服务 + 托管服务（随主机自动启停全局钩子）。
+        services.AddSingleton<KeyboardCaptureService>();
+        services.AddSingleton<IKeyboardCaptureService>(sp =>
+            sp.GetRequiredService<KeyboardCaptureService>());
+        services.AddHostedService(sp => sp.GetRequiredService<KeyboardCaptureService>());
 
         // 集成测试标记：仅当显式开启环境变量时写入，
         // 供自动化验证在启动 ClassIsland 后确认插件已成功加载。
