@@ -2,7 +2,7 @@ id: Starsky16.KeyboardCapture.Demo
 name: 键盘捕捉示例插件
 description: 演示如何依赖 KeyboardCapture 插件并订阅全局键盘事件。
 entranceAssembly: "KeyboardCapture.DemoPlugin.dll"
-url: https://github.com/Starsky16/newplugin
+url: https://github.com/Starsky16/KeyboardCapture
 version: 0.0.0.1
 apiVersion: 2.0.0.0
 author: Starsky16
