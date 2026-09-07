@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>KeyboardCapture.Abstractions</AssemblyName>
+        <RootNamespace>KeyboardCapture.Abstractions</RootNamespace>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <!-- NuGet 打包元数据：此共享包将发布到 nuget.org，供其他 ClassIsland 插件引用 -->
+    <PropertyGroup>
+        <PackageId>Starsky16.KeyboardCapture.Abstractions</PackageId>
+        <Version>0.1.0</Version>
+        <Authors>Starsky16</Authors>
+        <Description>KeyboardCapture 插件的共享接口定义，供其他 ClassIsland 插件订阅全局键盘按键事件。</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/Starsky16/newplugin</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Starsky16/newplugin.git</RepositoryUrl>
+        <PackageTags>classisland;plugin;keyboard;hook</PackageTags>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);CS1591</NoWarn>
+    </PropertyGroup>
+
+</Project>

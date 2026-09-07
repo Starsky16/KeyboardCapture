@@ -21,6 +21,17 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="src\KeyboardCapture.Abstractions\KeyboardCapture.Abstractions.csproj" />
+    </ItemGroup>
+
+    <!-- 排除子项目源码与资源，避免被 SDK 默认 glob 重复编译进主插件程序集 -->
+    <ItemGroup>
+        <Compile Remove="src\**\*.cs" />
+        <EmbeddedResource Remove="src\**" />
+        <None Remove="src\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <None Update="manifest.yml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
