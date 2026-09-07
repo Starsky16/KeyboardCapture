@@ -7,7 +7,7 @@ id: Starsky16.KeyboardCapture
 name: 键盘捕捉
 description: 全局键盘按键捕捉服务，供其他 ClassIsland 插件订阅按键事件。
 entranceAssembly: "KeyboardCapture.dll"
-url: https://github.com/Starsky16/newplugin
+url: https://github.com/Starsky16/KeyboardCapture
 version: 0.0.0.1
 apiVersion: 2.0.0.0
 author: Starsky16
