@@ -28,8 +28,11 @@
     <!-- 排除子项目源码与资源，避免被 SDK 默认 glob 重复编译进主插件程序集 -->
     <ItemGroup>
         <Compile Remove="src\**\*.cs" />
+        <Compile Remove="demo\**\*.cs" />
         <EmbeddedResource Remove="src\**" />
+        <EmbeddedResource Remove="demo\**" />
         <None Remove="src\**" />
+        <None Remove="demo\**" />
     </ItemGroup>
 
     <ItemGroup>

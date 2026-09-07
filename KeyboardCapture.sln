@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyboardCapture.Abstractions", "src\KeyboardCapture.Abstractions\KeyboardCapture.Abstractions.csproj", "{440BB35F-AAE2-4F5D-BF91-F52DF3A8F31E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{A39C23D2-F2C0-258D-165A-CF1E7FEE6E7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyboardCapture.DemoPlugin", "demo\KeyboardCapture.DemoPlugin\KeyboardCapture.DemoPlugin.csproj", "{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,11 +47,24 @@ Global
 		{440BB35F-AAE2-4F5D-BF91-F52DF3A8F31E}.Release|x64.Build.0 = Release|Any CPU
 		{440BB35F-AAE2-4F5D-BF91-F52DF3A8F31E}.Release|x86.ActiveCfg = Release|Any CPU
 		{440BB35F-AAE2-4F5D-BF91-F52DF3A8F31E}.Release|x86.Build.0 = Release|Any CPU
+		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Debug|x64.Build.0 = Debug|Any CPU
+		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Debug|x86.Build.0 = Debug|Any CPU
+		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Release|x64.ActiveCfg = Release|Any CPU
+		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Release|x64.Build.0 = Release|Any CPU
+		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Release|x86.ActiveCfg = Release|Any CPU
+		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{440BB35F-AAE2-4F5D-BF91-F52DF3A8F31E} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96} = {A39C23D2-F2C0-258D-165A-CF1E7FEE6E7B}
 	EndGlobalSection
 EndGlobal
