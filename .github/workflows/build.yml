@@ -1,0 +1,55 @@
+name: Build
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    name: Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Build solution
+        run: dotnet build KeyboardCapture.sln -c Release
+
+      - name: Publish plugin (.cipx)
+        run: pwsh -ep bypass ./tools/publish.ps1 -Configuration Release
+
+      - name: Pack abstractions package
+        run: dotnet pack src/KeyboardCapture.Abstractions/KeyboardCapture.Abstractions.csproj -c Release -o ./artifacts
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: KeyboardCapture
+          path: |
+            ./cipx/*.cipx
+            ./artifacts/*.nupkg
+          if-no-files-found: error
+
+      - name: Upload plugin to GitHub Release
+        uses: ncipollo/release-action@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          artifacts: "./cipx/*.cipx"
+          draft: true
+          generateReleaseNotes: true
+          token: ${{ secrets.GITHUB_TOKEN }}
