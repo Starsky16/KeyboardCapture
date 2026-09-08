@@ -89,4 +89,4 @@ Git 分支约定：`main` 为发布主线，`dev` 为开发分支；功能经过
 
 ## 许可
 
-[MIT](LICENSE.txt)
+[GPL-3.0](LICENSE.txt) 开源，与 ClassIsland 生态保持一致。

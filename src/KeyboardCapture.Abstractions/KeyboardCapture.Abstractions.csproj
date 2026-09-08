@@ -15,7 +15,7 @@
         <Version>0.1.0</Version>
         <Authors>Starsky16</Authors>
         <Description>KeyboardCapture 插件的共享接口定义，供其他 ClassIsland 插件订阅全局键盘按键事件。</Description>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/Starsky16/KeyboardCapture</PackageProjectUrl>
         <RepositoryUrl>https://github.com/Starsky16/KeyboardCapture.git</RepositoryUrl>
         <PackageTags>classisland;plugin;keyboard;hook</PackageTags>

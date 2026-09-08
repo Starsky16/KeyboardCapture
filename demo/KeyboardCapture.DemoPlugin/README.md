@@ -13,4 +13,4 @@
 pwsh tools/run-local-test.ps1
 ```
 
-MIT License
+本项目基于 [GNU General Public License v3.0](../../LICENSE.txt)（GPL-3.0）开源。
