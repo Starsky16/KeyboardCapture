@@ -7,6 +7,9 @@ name: Publish NuGet
 # 注意：nuget.org 上对应的 Trusted Publishing policy 需要填写
 #   Repository Owner = Starsky16、Repository = KeyboardCapture、Workflow File = publish-nuget.yml
 #   （policy 的 ref 声明只支持分支名，不支持 tag，所以这里用 workflow_dispatch 而不是打 tag 触发）
+#   policy 的 Scopes 必须允许对应的发布动作（首次发新版仍要勾选「publish new packages」），
+#   并配上 Starsky16.KeyboardCapture.Abstractions 的 glob，否则 push 会被 nuget.org 拒绝。
+# 临时 key 只能换一次且 1 小时过期 → 步骤顺序固定为 pack → login → push，中间不要插入耗时步骤。
 on:
   workflow_dispatch:
 
@@ -26,17 +29,21 @@ jobs:
     runs-on: windows-latest
     # 防止在 fork / 镜像仓库里误触发真实发布
     if: github.repository_owner == 'Starsky16'
+    # 打包 + 推送的网络操作偶尔会卡住，给个上限避免占着 runner 不放
+    timeout-minutes: 15
     steps:
+      # 以下三个 action 都用 v5：v4 打的是 Node 20，runner 会强制用 Node 24 跑并打
+      # 「Node.js 20 is deprecated」警告（v5 起改用 node24），只做这一档最小升级。
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install .NET 8
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.x
 
       - name: Cache NuGet packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -46,10 +53,17 @@ jobs:
       - name: Pack abstractions package
         run: dotnet pack src/KeyboardCapture.Abstractions/KeyboardCapture.Abstractions.csproj -c Release -o ./artifacts
 
-      - name: Show package version
+      - name: List packages to publish
         shell: pwsh
         run: |
-          Get-ChildItem ./artifacts/*.nupkg | ForEach-Object { "将发布：$($_.Name)" }
+          # 用 -Filter + @() 取值：路径不存在或没有匹配文件时得到空数组而不是抛错，
+          # 这样能在换取一次性 OIDC key 之前就报出可读的错误。
+          $packages = @(Get-ChildItem -Path ./artifacts -Filter *.nupkg -File -ErrorAction SilentlyContinue)
+          if ($packages.Count -eq 0) {
+            throw "artifacts 目录下没有 nupkg，打包步骤可能没成功"
+          }
+
+          $packages | ForEach-Object { "将发布：$($_.Name)" }
 
       - name: NuGet login (OIDC -> temporary API key)
         id: login
@@ -60,14 +74,20 @@ jobs:
       - name: Push package to nuget.org
         shell: pwsh
         run: |
-          $packages = Get-ChildItem ./artifacts/*.nupkg
+          $packages = @(Get-ChildItem -Path ./artifacts -Filter *.nupkg -File -ErrorAction SilentlyContinue)
           if ($packages.Count -eq 0) {
             throw "artifacts 目录下没有 nupkg，打包步骤可能没成功"
           }
 
           foreach ($package in $packages) {
+            # --skip-duplicate：同版本已存在时 nuget.org 返回 409，NuGet 只记一条警告、
+            # 命令仍以 0 退出 → 这一步“绿了”不代表真的发了新包，发版前务必先升 <Version>。
+            # 下面的退出码检查只用来兜住认证 / 网络等真实失败。
             dotnet nuget push $package.FullName `
               --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" `
               --source https://www.nuget.org/api/v2/package `
               --skip-duplicate
+            if ($LASTEXITCODE -ne 0) {
+              throw "推送 $($package.Name) 失败，dotnet nuget push 退出码 $LASTEXITCODE"
+            }
           }
