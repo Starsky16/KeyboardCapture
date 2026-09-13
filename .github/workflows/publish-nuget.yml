@@ -1,0 +1,73 @@
+name: Publish NuGet
+
+# 通过 nuget.org 的 Trusted Publishing（OIDC）发布 Starsky16.KeyboardCapture.Abstractions。
+# 不需要长期 API key：工作流用 GitHub 的 OIDC 令牌向 nuget.org 换取 1 小时有效的一次性 API key。
+#
+# 手动触发：Actions → Publish NuGet → Run workflow。
+# 注意：nuget.org 上对应的 Trusted Publishing policy 需要填写
+#   Repository Owner = Starsky16、Repository = KeyboardCapture、Workflow File = publish-nuget.yml
+#   （policy 的 ref 声明只支持分支名，不支持 tag，所以这里用 workflow_dispatch 而不是打 tag 触发）
+on:
+  workflow_dispatch:
+
+# OIDC 换取临时 key 需要 id-token: write
+permissions:
+  contents: read
+  id-token: write
+
+# 避免两次发布同时进行互相干扰
+concurrency:
+  group: publish-nuget
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish Starsky16.KeyboardCapture.Abstractions
+    runs-on: windows-latest
+    # 防止在 fork / 镜像仓库里误触发真实发布
+    if: github.repository_owner == 'Starsky16'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Pack abstractions package
+        run: dotnet pack src/KeyboardCapture.Abstractions/KeyboardCapture.Abstractions.csproj -c Release -o ./artifacts
+
+      - name: Show package version
+        shell: pwsh
+        run: |
+          Get-ChildItem ./artifacts/*.nupkg | ForEach-Object { "将发布：$($_.Name)" }
+
+      - name: NuGet login (OIDC -> temporary API key)
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: starsky16
+
+      - name: Push package to nuget.org
+        shell: pwsh
+        run: |
+          $packages = Get-ChildItem ./artifacts/*.nupkg
+          if ($packages.Count -eq 0) {
+            throw "artifacts 目录下没有 nupkg，打包步骤可能没成功"
+          }
+
+          foreach ($package in $packages) {
+            dotnet nuget push $package.FullName `
+              --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" `
+              --source https://www.nuget.org/api/v2/package `
+              --skip-duplicate
+          }
