@@ -363,3 +363,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# 本地开发环境与密钥防护（2026-09-13 补充）
+.env
+.env.*

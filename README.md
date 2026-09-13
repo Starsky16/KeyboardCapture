@@ -66,6 +66,24 @@ public class YourService
 > - 主插件以托管服务形式随 ClassIsland 自动启动钩子，订阅方无需手动调用 `Start()`（除非曾显式 `Stop()`）。
 > - 若将本插件声明为**可选**依赖（`isRequired: false`），请改用 `IAppHost.TryGetService<IKeyboardCaptureService>()` 获取服务，并妥善处理服务缺失的情形。
 
+## 与 SystemTools 等综合插件的关系
+
+ClassIsland 生态中，[SystemTools](https://github.com/Programmer-MrWang/SystemTools) 等综合插件也提供键盘相关能力（“按下自定义热键时”触发器，基于 Win32 `RegisterHotKey`）。二者**定位不同、可以共存、互为补充**：
+
+| 维度 | KeyboardCapture | SystemTools 等综合插件 |
+| --- | --- | --- |
+| 面向对象 | **插件开发者**：通过 `IKeyboardCaptureService` 在代码中订阅 | **最终用户**：在图形界面配置触发器 / 行动 |
+| 按键范围 | 完整键流：任意键的 KeyDown / KeyUp + 原生键码 + 修饰键状态 | 仅已注册的离散热键组合（按下时广播一次） |
+| 实现方式 | 持续全局低级键盘钩子（SharpHook / libuiohook），**只观察、不拦截** | `RegisterHotKey` 系统热键注册，会**独占**该组合，前台程序不再收到该按键 |
+| 冲突与上限 | 不占用系统热键表，无数量上限、无注册失败问题 | 受系统热键表限制，被其他程序占用时注册失败 |
+| 复用方式 | 发布 `Starsky16.KeyboardCapture.Abstractions`，其他插件引用后直接订阅 | 服务为插件内部实现，不对外暴露 |
+
+结论：
+
+- 若只需要「按某个快捷键执行 ClassIsland 自动化」，使用综合插件的触发器即可，无需本插件。
+- 若是**插件开发者**，需要拿到完整、非侵入的全局按键流（自定义快捷键系统、按键序列与长按检测、遥控器 / 物理键盘映射、按键宏录制回放、外部输入统计等），请依赖本插件。
+- 两者可以同时安装运行：本插件使用非独占钩子，不会阻止其他程序（包括 SystemTools）注册热键或接收按键。
+
 ## 开发与测试
 
 前置条件：.NET 8 SDK，以及本机可运行的 ClassIsland Debug 构建（`tools/run-local-test.ps1` 默认查找 `d:\code\ClassIsland\...\net8.0-windows10.0.19041.0`）。
