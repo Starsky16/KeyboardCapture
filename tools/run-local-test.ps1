@@ -4,10 +4,11 @@
 # 用法：
 #   pwsh tools/run-local-test.ps1 [-ClassIslandExe <路径>] [-PluginId <id>]
 #
-# 前置条件：先运行 dotnet build KeyboardCapture.sln -c Debug。
+# 前置条件：先运行 dotnet build KeyboardCapture.sln -c Debug；
+#           并在 ClassIsland 仓库运行 pwsh ./build.ps1 InitPluginDevEnv 生成本体 Debug 构建。
 
 param(
-    [string]$ClassIslandExe = "d:\code\ClassIsland\ClassIsland.Desktop\bin\Debug\net8.0-windows10.0.19041.0\ClassIsland.Desktop.exe",
+    [string]$ClassIslandExe = "d:\code\ClassIsland\out\ClassIsland_Dev\bin\ClassIsland.Desktop.exe",
     [string]$MainPluginId = "Starsky16.KeyboardCapture",
     [string]$DemoPluginId = "Starsky16.KeyboardCapture.Demo"
 )
@@ -15,8 +16,18 @@ param(
 $ErrorActionPreference = "Stop"
 
 $exeDir = Split-Path -Parent $ClassIslandExe
-$pluginsRoot = Join-Path $exeDir "Plugins"
-$cfgRoot = Join-Path $exeDir "Config\Plugins"
+# ClassIsland 以含 PackageType 的目录为打包根，folder 类型下应用数据根是 <打包根>\data，
+# 插件与插件配置分别在 <数据根>\Plugins 和 <数据根>\Config\Plugins
+# （见 ClassIsland/App.axaml.cs ActivateAppDirectories 与 Services/PluginService.cs）。
+$packageRoot = [IO.Path]::GetFullPath((Join-Path $exeDir ".."))
+$packageTypeFile = Join-Path $packageRoot "PackageType"
+if (-not (Test-Path $packageTypeFile)) { throw "找不到 PackageType，无法定位应用数据目录：$packageTypeFile" }
+if ((Get-Content $packageTypeFile -Raw).Trim() -ne "folder") {
+    throw "当前构建的 PackageType 不是 folder，本脚本只支持 ClassIsland 的 folder 开发构建。"
+}
+$dataRoot = Join-Path $packageRoot "data"
+$pluginsRoot = Join-Path $dataRoot "Plugins"
+$cfgRoot = Join-Path $dataRoot "Config\Plugins"
 $mainOut = Join-Path (Split-Path -Parent $PSScriptRoot) "bin\Debug\net8.0-windows"
 $demoOut = Join-Path (Split-Path -Parent $PSScriptRoot) "demo\KeyboardCapture.DemoPlugin\bin\Debug\net8.0-windows"
 
