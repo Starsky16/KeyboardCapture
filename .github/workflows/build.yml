@@ -30,6 +30,9 @@ jobs:
       - name: Build solution
         run: dotnet build KeyboardCapture.sln -c Release
 
+      - name: Run unit tests
+        run: dotnet test tests/KeyboardCapture.Tests/KeyboardCapture.Tests.csproj -c Release --no-build
+
       - name: Publish plugin (.cipx)
         run: pwsh -ep bypass ./tools/publish.ps1 -Configuration Release
 

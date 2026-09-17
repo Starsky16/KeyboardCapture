@@ -29,10 +29,18 @@
     <ItemGroup>
         <Compile Remove="src\**\*.cs" />
         <Compile Remove="demo\**\*.cs" />
+        <Compile Remove="tests\**\*.cs" />
         <EmbeddedResource Remove="src\**" />
         <EmbeddedResource Remove="demo\**" />
+        <EmbeddedResource Remove="tests\**" />
         <None Remove="src\**" />
         <None Remove="demo\**" />
+        <None Remove="tests\**" />
+    </ItemGroup>
+
+    <!-- 允许测试项目访问 internal 成员（键名映射与可注入全局钩子的构造函数） -->
+    <ItemGroup>
+        <InternalsVisibleTo Include="KeyboardCapture.Tests" />
     </ItemGroup>
 
     <ItemGroup>

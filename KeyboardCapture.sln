@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{A39C23D2-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyboardCapture.DemoPlugin", "demo\KeyboardCapture.DemoPlugin\KeyboardCapture.DemoPlugin.csproj", "{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyboardCapture.Tests", "tests\KeyboardCapture.Tests\KeyboardCapture.Tests.csproj", "{27B214E2-1C6E-4DD5-B670-DF6182AEA8B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +63,18 @@ Global
 		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Release|x64.Build.0 = Release|Any CPU
 		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Release|x86.ActiveCfg = Release|Any CPU
 		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96}.Release|x86.Build.0 = Release|Any CPU
+		{27B214E2-1C6E-4DD5-B670-DF6182AEA8B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27B214E2-1C6E-4DD5-B670-DF6182AEA8B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27B214E2-1C6E-4DD5-B670-DF6182AEA8B6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{27B214E2-1C6E-4DD5-B670-DF6182AEA8B6}.Debug|x64.Build.0 = Debug|Any CPU
+		{27B214E2-1C6E-4DD5-B670-DF6182AEA8B6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{27B214E2-1C6E-4DD5-B670-DF6182AEA8B6}.Debug|x86.Build.0 = Debug|Any CPU
+		{27B214E2-1C6E-4DD5-B670-DF6182AEA8B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27B214E2-1C6E-4DD5-B670-DF6182AEA8B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27B214E2-1C6E-4DD5-B670-DF6182AEA8B6}.Release|x64.ActiveCfg = Release|Any CPU
+		{27B214E2-1C6E-4DD5-B670-DF6182AEA8B6}.Release|x64.Build.0 = Release|Any CPU
+		{27B214E2-1C6E-4DD5-B670-DF6182AEA8B6}.Release|x86.ActiveCfg = Release|Any CPU
+		{27B214E2-1C6E-4DD5-B670-DF6182AEA8B6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,5 +82,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{440BB35F-AAE2-4F5D-BF91-F52DF3A8F31E} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{ABA4D0AD-0A48-4F90-A26E-9A5DEF291C96} = {A39C23D2-F2C0-258D-165A-CF1E7FEE6E7B}
+		{27B214E2-1C6E-4DD5-B670-DF6182AEA8B6} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 EndGlobal
