@@ -12,7 +12,7 @@
     <!-- NuGet 打包元数据：此共享包将发布到 nuget.org，供其他 ClassIsland 插件引用 -->
     <PropertyGroup>
         <PackageId>Starsky16.KeyboardCapture.Abstractions</PackageId>
-        <Version>0.1.1</Version>
+        <Version>0.2.0</Version>
         <Authors>Starsky16</Authors>
         <Description>KeyboardCapture 插件的共享接口定义，供其他 ClassIsland 插件订阅全局键盘按键事件。</Description>
         <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>

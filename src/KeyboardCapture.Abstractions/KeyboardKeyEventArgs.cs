@@ -46,6 +46,10 @@ public sealed class KeyboardKeyEventArgs : EventArgs
     /// <summary>
     /// 是否为按住键产生的系统自动重复事件。仅按下事件可能为 <see langword="true"/>。
     /// </summary>
+    /// <remarks>
+    /// 该值由实现根据按键是否仍处于按下状态推断（收到同一键的重复按下事件即视为自动重复），
+    /// 而非底层钩子提供的原生标志。
+    /// </remarks>
     public bool IsAutoRepeat { get; }
 
     /// <summary>
