@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <AssemblyName>KeyboardCapture.Tests</AssemblyName>
+        <RootNamespace>KeyboardCapture.Tests</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+        <PackageReference Include="xunit" Version="2.9.3" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <!-- 主项目对 PluginSdk 排除了 runtime 资产（运行期由 ClassIsland 主机提供），
+             测试进程需自行提供 IHostedService 所在程序集；版本须与 PluginSdk 传递版本对齐。 -->
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
+    </ItemGroup>
+
+    <!-- 主项目带 InternalsVisibleTo("KeyboardCapture.Tests")，可访问服务内部的可注入构造函数 -->
+    <ItemGroup>
+        <ProjectReference Include="..\..\KeyboardCapture.csproj" />
+        <ProjectReference Include="..\..\src\KeyboardCapture.Abstractions\KeyboardCapture.Abstractions.csproj" />
+    </ItemGroup>
+
+</Project>

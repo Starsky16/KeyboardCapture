@@ -2,6 +2,8 @@
 
 一个用于 [ClassIsland](https://classisland.tech) 的**全局键盘按键捕捉**插件。
 
+> **AI 辅助说明**：本项目使用 AI 辅助生成，大部分代码由 AI 编写，作者负责审查其行为并保证功能与测试正常。
+
 本插件通过跨平台全局键盘钩子（[SharpHook](https://github.com/TolikPylypchuk/SharpHook) / libuiohook）捕捉系统级键盘按键事件，并以依赖注入服务的形式暴露给其他 ClassIsland 插件，使它们可以订阅全局按键（KeyDown / KeyUp）、读取修饰键状态，从而实现快捷键触发、按键联动等场景（例如教室多媒体大屏上的物理按键 / 遥控触发）。
 
 ## 主要功能

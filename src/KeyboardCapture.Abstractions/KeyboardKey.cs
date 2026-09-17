@@ -84,4 +84,56 @@ public static class KeyboardKeys
     public const string F10 = "F10";
     public const string F11 = "F11";
     public const string F12 = "F12";
+    public const string F13 = "F13";
+    public const string F14 = "F14";
+    public const string F15 = "F15";
+    public const string F16 = "F16";
+    public const string F17 = "F17";
+    public const string F18 = "F18";
+    public const string F19 = "F19";
+    public const string F20 = "F20";
+    public const string F21 = "F21";
+    public const string F22 = "F22";
+    public const string F23 = "F23";
+    public const string F24 = "F24";
+
+    // 字母键：键名即大写字母本身。
+    public const string A = "A";
+    public const string B = "B";
+    public const string C = "C";
+    public const string D = "D";
+    public const string E = "E";
+    public const string F = "F";
+    public const string G = "G";
+    public const string H = "H";
+    public const string I = "I";
+    public const string J = "J";
+    public const string K = "K";
+    public const string L = "L";
+    public const string M = "M";
+    public const string N = "N";
+    public const string O = "O";
+    public const string P = "P";
+    public const string Q = "Q";
+    public const string R = "R";
+    public const string S = "S";
+    public const string T = "T";
+    public const string U = "U";
+    public const string V = "V";
+    public const string W = "W";
+    public const string X = "X";
+    public const string Y = "Y";
+    public const string Z = "Z";
+
+    // 主键盘数字键：键名为数字字符本身（常量名加 Digit 前缀以便书写）。
+    public const string Digit0 = "0";
+    public const string Digit1 = "1";
+    public const string Digit2 = "2";
+    public const string Digit3 = "3";
+    public const string Digit4 = "4";
+    public const string Digit5 = "5";
+    public const string Digit6 = "6";
+    public const string Digit7 = "7";
+    public const string Digit8 = "8";
+    public const string Digit9 = "9";
 }

@@ -6,6 +6,7 @@ using KeyboardCapture.Abstractions;
 using KeyboardCapture.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace KeyboardCapture;
 
@@ -18,7 +19,9 @@ public class Plugin : PluginBase
     public override void Initialize(HostBuilderContext context, IServiceCollection services)
     {
         // 注册全局键盘捕捉服务：单例服务 + 托管服务（随主机自动启停全局钩子）。
-        services.AddSingleton<KeyboardCaptureService>();
+        // 显式注入日志记录器，便于钩子启动失败时留下可排查的日志。
+        services.AddSingleton(sp =>
+            new KeyboardCaptureService(sp.GetService<ILogger<KeyboardCaptureService>>()));
         services.AddSingleton<IKeyboardCaptureService>(sp =>
             sp.GetRequiredService<KeyboardCaptureService>());
         services.AddHostedService(sp => sp.GetRequiredService<KeyboardCaptureService>());

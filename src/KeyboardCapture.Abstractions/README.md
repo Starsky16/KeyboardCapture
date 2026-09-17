@@ -96,14 +96,14 @@ public void TryAttach()
 | --- | --- |
 | `IKeyboardCaptureService` | 全局键盘捕捉服务（`IsCapturing` / `Start()` / `Stop()` / `KeyDown` / `KeyUp`） |
 | `KeyboardKey` | 单个按键：`Code`（对齐 UIOHook 键码，跨平台统一）+ `Name`（人类可读键名，如 `"A"`、`"F5"`、`"LeftCtrl"`） |
-| `KeyboardKeys` | 常用键名常量（`F1`–`F12`、`LeftCtrl`、`ArrowUp = "Up"`、`Space`、`Escape` 等），用于与 `KeyboardKey.Name` 比较 |
+| `KeyboardKeys` | 常用键名常量（`A`–`Z`、`Digit0`–`Digit9`、`F1`–`F24`、`LeftCtrl`、`ArrowUp = "Up"`、`Space`、`Escape` 等），用于与 `KeyboardKey.Name` 比较 |
 | `KeyboardKeyEventArgs` | `Key`、`Modifiers`、`IsKeyDown`、`IsAutoRepeat`（按住键的系统自动重复）、`TimestampMs`（单调递增毫秒） |
 | `KeyModifiers` | `[Flags]`：`None` / `Ctrl` / `Alt` / `Shift` / `Meta`（Win / Cmd / Super） |
 
 ## 注意事项
 
 - **后台线程**：事件在钩子线程触发，更新 UI 请自行封送到 Avalonia 的 `Dispatcher.UIThread`；耗时操作请转到线程池，避免阻塞按键分发。
-- **自动重复**：按住按键会持续产生 `IsAutoRepeat == true` 的按下事件，做快捷键触发时通常应忽略它们。
+- **自动重复**：按住按键会持续产生 `IsAutoRepeat == true` 的按下事件（由插件根据按键是否仍处于按下状态推断，而非系统原生标志），做快捷键触发时通常应忽略它们。
 - **非独占钩子**：仅观察、不拦截按键，不会抢占系统热键（`RegisterHotKey`）或被按下的组合，也不影响前台程序接收按键。
 - **异常隔离**：单个订阅者的处理程序抛出的异常不会影响其他订阅者，也不会中断钩子分发。
 - **资源释放**：`IKeyboardCaptureService` 实现 `IDisposable`，其生命周期由 ClassIsland 容器管理，消费方不要自行释放。
