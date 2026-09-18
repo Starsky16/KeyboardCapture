@@ -3,6 +3,10 @@ name: Build
 on:
   push:
     branches: [main, dev]
+    # 发版 tag 形如 a.b.c.d（四段数字），只有这种 tag 才触发构建并生成 draft Release。
+    # 注意：只写 branches 时 tag 推送不会触发本工作流，所以必须显式声明 tags。
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+.[0-9]+"
   pull_request:
   workflow_dispatch:
 
